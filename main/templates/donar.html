@@ -1,0 +1,334 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>A.L.A</title>
+    <link rel="stylesheet" href="{% static 'main/css/sign in.css' %}">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="{% static 'main/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/compra.css' %}">
+    <link rel="stylesheet" href="{% static 'main/css/responsive.css' %}">
+    <script src="{% static 'main/js/jquery.min.js' %}"></script>
+    <script src="{% static 'main/js/popper.min.js' %}"></script>
+    <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- fevicon -->
+    <link rel="icon" href="{% static 'main/images/fevicon.png' %}" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="{% static 'main/css/jquery.mCustomScrollbar.min.css' %}">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+        media="screen">
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+    <style>
+        .dropdown-menu {
+            background-color: #666666;
+        }
+    </style>
+
+</head>
+
+<body class="main-layout contineer_page">
+    <!-- loader  -->
+    <div class="loader_bg">
+        <div class="loader"><img src="{% static 'main/images/loading.gif' %}" alt="#" /></div>
+    </div>
+    <!-- end loader -->
+    <!-- header -->
+    <header>
+        <!-- header inner -->
+        <div class="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col logo_section">
+                        <div class="full">
+                            <div class="center-desk">
+                                <div class="logo">
+                                    <img src="{% static 'main/images/FundacionALA.jpg' %}" alt="#" width="100px"
+                                        height="100px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-10 col-lg-10 col-md-10 col-sm-9">
+                        <div class="menu-area">
+                            <div class="limit-box">
+                                <nav class="main-menu ">
+                                    <ul class="menu-area-main">
+                                        <li> <a href="{% url 'index' %}">Inicio</a> </li>
+                                        <li> <a href="{% url 'about' %}">Sobre nosotros</a> </li>
+                                        <li class="active"> <a href="{% url 'donar' %}">Donar</a></li>
+                                        <li> <a href="{% url 'pacientes' %}">Pacientes</a> </li>
+                                        <li> <a href="{% url 'contact' %}">Contactanos</a> </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                                role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">Iniciar sesión</a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a>
+                                                <a class="dropdown-item" href="{% url 'signup' %}">Registrarse</a>
+                                            </div>
+                                        </li>
+                                        <li> <a class="last_manu" href="#"><img
+                                                    src="{% static 'main/images/search_icon.png' %}" alt="#" /></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end header inner -->
+    </header>
+
+    <!-- end header inner -->
+
+    <!-- end header -->
+
+    <div class="backgro_mh">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heding">
+                        <h2>Donar</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario de donacion -->
+    <div class="centered">
+        <div class="container_donacion">
+            <form id="donationForm">
+                <label for="name">Nombre:</label><br>
+                <input type="text" id="name" name="name"><br>
+                <span id="nameError" class="error"></span><br>
+
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email"><br>
+                <span id="emailError" class="error"></span><br>
+
+                <label for="quantity">Cantidad a Donar:</label><br>
+                <input type="number" id="quantity" name="quantity" min="1000" max="20000" step="100"><br>
+                <span id="quantityError" class="error"></span><br>
+
+                <input type="submit" value="Donar" class="btn_compra">
+                <button type="button" class="btn_compra" id="reset-btn">Limpiar</button>
+                <div id="formMessage" class="success"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("donationForm");
+            const resetBtn = document.getElementById("reset-btn");
+
+            form.addEventListener("submit", validateForm);
+            resetBtn.addEventListener("click", resetForm);
+
+            function validateForm(event) {
+                event.preventDefault();
+
+                const name = form.elements["name"].value;
+                const email = form.elements["email"].value;
+                const quantity = form.elements["quantity"].value;
+
+                let isValid = true;
+
+                isValid &= showError("nameError", name, "Por favor ingresa tu nombre");
+                isValid &= showError("emailError", email && /\S+@\S+\.\S+/.test(email), "Por favor ingresa un email válido");
+                isValid &= showError("quantityError", quantity > 0, "Por favor ingresa una cantidad válida");
+
+                if (isValid) {
+                    alert("¡Donación exitosa!");
+                    form.reset();
+                }
+            }
+
+            function showError(elementId, condition, message) {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = condition ? "" : message;
+                return !!condition;
+            }
+
+            function resetForm() {
+                form.reset();
+                Array.from(document.getElementsByClassName("error")).forEach(el => el.textContent = "");
+                document.getElementById("formMessage").textContent = "";
+            }
+        });
+    </script>
+
+
+    <!-- footer -->
+    <footr>
+        <div class="footer ">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="contactForm" class="contact_bg" onsubmit="return validateForm()">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-12">
+                                        <input class="contactus" placeholder="Nombre" type="text" name="Your Name"
+                                            required minlength="6" maxlength="40">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input class="contactus" placeholder="Email" type="email" name="Your Email"
+                                            required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <input class="contactus" placeholder="Telefono" type="text" name="Your Phone"
+                                            pattern="[0-9]{9}" title="Ingrese un número de teléfono válido (9 dígitos)"
+                                            required>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <textarea class="textarea" placeholder="Mensaje" type="text" name="Message"
+                                            required minlength="5" maxlength="200"
+                                            title="favor ingresa tu mensaje"></textarea>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                        <button class="send" type="submit">Enviar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <script>
+                            function validateForm() {
+                                var form = document.getElementById("contactForm");
+                                var inputs = form.querySelectorAll("input, textarea");
+
+                                for (var i = 0; i < inputs.length; i++) {
+                                    if (!inputs[i].value) {
+                                        alert("Por favor, complete todos los campos antes de enviar.");
+                                        return false;
+                                    }
+                                }
+
+                                alert("Su solicitud de contacto ha sido enviada");
+                                return true;
+                            }
+                        </script>
+
+
+                    </div>
+                    <div class="col-md-12 border_top">
+                        <form class="news">
+                            <h3>Subscribete para más información y cupones</h3>
+                            <input class="newslatter" placeholder="ENTER YOUR MAIL" type="email" name="ENTER YOUR MAIL"
+                                required>
+                            <button class="submit" type="button" onclick="showModal()">Subscribete</button>
+                        </form>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                        <div class="row">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                                <div class="address">
+                                    <ul class="loca">
+                                        <li>
+                                            <a href="#"><img src="{% static 'main/icon/loc.png' %}"
+                                                    alt="#" /></a>Ubicaciones
+
+                                        <li>
+
+                                            <a href="#"><img src="{% static 'main/icon/call.png' %}" alt="#" /></a>(+56)
+                                            9 1234 5678
+                                        </li>
+                                        <li>
+                                            <a href="#"><img src="{% static 'main/icon/email.png' %}"
+                                                    alt="#" /></a>example@gmail.com
+                                        </li>
+                                    </ul>
+
+
+                                </div>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 ">
+                                <ul class="social_link">
+                                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin-square" aria-hidden="true"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </footr>
+    <!-- end footer -->
+
+    <script>
+        $(function () {
+            $("#inicio").submit(function (event) {
+                var email = $("#email1").val();
+                var password = $("#password1").val();
+                $(".error").remove(); // Remove any existing error messages
+                var isValid = true;
+
+                // Validations
+                if (email === '' || !email.includes('@') || !email.includes('.')) {
+                    $("#error_container").append('<span class="error">Please enter a valid email</span>');
+                    isValid = false;
+                }
+                if (password.length < 6) {
+                    $("#error_container").append('<span class="error">Please enter a password with at least 6 characters</span>');
+                    isValid = false;
+                }
+
+                // Prevent form submission if not valid
+                if (!isValid) {
+                    event.preventDefault();
+                } else {
+                    alert("Inicio de sesión exitoso!");
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+
+            <p>Te subscribiste con éxito!</p>
+            <button class="close-btn" onclick="closeModal()">Seguir viendo</button>
+        </div>
+    </div>
+
+    <!-- Javascript files-->
+    <script src="{% static 'main/js/jquery.min.js' %}"></script>
+    <script src="{% static 'main/js/popper.min.js' %}"></script>
+    <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'main/js/jquery-3.0.0.min.js' %}"></script>
+    <script src="{% static 'main/js/plugin.js' %}"></script>
+    <!-- sidebar -->
+    <script src="{% static 'main/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+    <script src="{% static 'main/js/custom.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{% static 'main/js/modal.js' %}"></script>
+</body>
+
+</html>

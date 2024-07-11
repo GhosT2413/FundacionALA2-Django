@@ -1,0 +1,41 @@
+.card-img-top {
+    width: 250px;
+    height: 250px;
+}
+
+.card-ficha {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .card-img-left-ficha {
+    width: 400px;
+    height: 400px;
+    object-fit: cover;
+    margin-right: 60px;
+  }
+  
+  .card-body-ficha {
+    flex: 1;
+  }
+  
+  .card-details-ficha {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    margin-right: 100px;
+  }
+  
+  .card-details-ficha li {
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+  .card-details-ficha .sub-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 5px;
+  }
+ 
